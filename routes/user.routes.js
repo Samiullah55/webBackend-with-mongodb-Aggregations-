@@ -3,6 +3,11 @@ import {
   loginController,
   logoutController,
   refreshAccessTokenController,
+  changePasswordController,
+  getCurrentUserController,
+  updateAccoutDetailsController,
+  updateUserAvatarController,
+  updateUserCoverImageController,
 } from "../controllers/user.controller.js";
 import { Router } from "express";
 import { upload } from "../middlewares/multer.middleware.js";
@@ -28,5 +33,20 @@ userRouter.route("/login").post(loginController);
 // secured Routes
 userRouter.route("/logout").post(verifyJwt, logoutController);
 userRouter.route("/refresh-token").post(refreshAccessTokenController);
+userRouter.route("/change-password").post(verifyJwt, changePasswordController);
+userRouter.route("/current-user").post(verifyJwt, getCurrentUserController);
+userRouter
+  .route("/update-user-details")
+  .patch(verifyJwt, updateAccoutDetailsController);
+userRouter
+  .route("/update-user-avatar")
+  .patch(verifyJwt, upload.single("avatar"), updateUserAvatarController);
+userRouter
+  .route("/update-user-coverimage")
+  .patch(
+    verifyJwt,
+    upload.single("coverImage"),
+    updateUserCoverImageController
+  );
 
 export default userRouter;
