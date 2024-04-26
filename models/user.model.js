@@ -62,6 +62,7 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 };
 
 userSchema.methods.generateAccessToken = function () {
+  const options = { expiresIn: process.env.ACCESS_TOKEN_EXPIRY };
   return jwt.sign(
     {
       _id: this._id,
@@ -70,17 +71,18 @@ userSchema.methods.generateAccessToken = function () {
       username: this.username,
     },
     process.env.ACCESS_TOKEN_SECRET,
-    { expriresIn: process.env.ACCESS_TOKEN_EXPIRY }
+    options
   );
 };
 
 userSchema.methods.generateRefreshToken = function () {
+  const options = { expiresIn: process.env.REFRESH_TOKEN_EXPIRY };
   return jwt.sign(
     {
       _id: this._id,
     },
     process.env.REFRESH_TOKEN_SECRET,
-    { expriresIn: process.env.REFRESH_TOKEN_EXPIRY }
+    options
   );
 };
 
