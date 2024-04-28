@@ -8,6 +8,7 @@ import {
   updateAccoutDetailsController,
   updateUserAvatarController,
   updateUserCoverImageController,
+  getUserChannelProfileDetails,
 } from "../controllers/user.controller.js";
 import { Router } from "express";
 import { upload } from "../middlewares/multer.middleware.js";
@@ -48,5 +49,8 @@ userRouter
     upload.single("coverImage"),
     updateUserCoverImageController
   );
+userRouter
+  .route("/user-channel-profile-details")
+  .get(verifyJwt, getUserChannelProfileDetails);
 
 export default userRouter;
