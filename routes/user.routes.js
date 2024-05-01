@@ -9,6 +9,7 @@ import {
   updateUserAvatarController,
   updateUserCoverImageController,
   getUserChannelProfileDetails,
+  userWatchHistoryController,
 } from "../controllers/user.controller.js";
 import { Router } from "express";
 import { upload } from "../middlewares/multer.middleware.js";
@@ -35,7 +36,7 @@ userRouter.route("/login").post(loginController);
 userRouter.route("/logout").post(verifyJwt, logoutController);
 userRouter.route("/refresh-token").post(refreshAccessTokenController);
 userRouter.route("/change-password").post(verifyJwt, changePasswordController);
-userRouter.route("/current-user").post(verifyJwt, getCurrentUserController);
+userRouter.route("/current-user").get(verifyJwt, getCurrentUserController);
 userRouter
   .route("/update-user-details")
   .patch(verifyJwt, updateAccoutDetailsController);
@@ -50,7 +51,11 @@ userRouter
     updateUserCoverImageController
   );
 userRouter
-  .route("/user-channel-profile-details")
+  .route("/user-channel-profile-details/:username")
   .get(verifyJwt, getUserChannelProfileDetails);
+
+userRouter
+  .route("/user-watch-history")
+  .get(verifyJwt, userWatchHistoryController);
 
 export default userRouter;
